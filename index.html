@@ -1,0 +1,918 @@
+<!DOCTYPE html>
+<meta charset=utf-8>
+<title>WDDG</title>
+<link rel="stylesheet" href="css/bodoni.css" type="text/css" charset="utf-8">
+<link href="css/main.css" rel="stylesheet" type="text/css" media="screen" />
+<style type="text/css">
+<!--
+canvas {
+	position: absolute;
+	height: 486px;
+	width: 720px;
+	margin-left: 115px;
+	z-index: 1;
+}
+
+h1 {
+	font-weight: normal;
+	font-style: normal;
+	line-height:normal;
+	font-family: 'BodoniRecutBlackSSiBlackItali',
+	sans-serif;
+	font-size: 54px;
+	color: #FFFFFF;
+	text-shadow: #FFFFFF 0px 0px 5px;
+	position: absolute;
+	margin-top: 180px;
+	margin-left: 115px;
+	text-align: center;
+	width: 720px;
+	z-index: 100;
+	visibility:visible;
+	/*background-color: #FF0000;*/
+}
+
+video {
+	position: relative;
+	height: 486px;
+	width: 720px;
+	margin-left: 115px;
+	z-index: 2;
+	background-color:black;
+	visibility:hidden;
+}
+
+-->
+</style>
+<body>
+<div id="rap">
+	<div id="main-menu">
+		<div class="item about-us"><a href="#" onclick="javascript:loadSectionByTitle('About Us');" title="ABOUT US"><img src="png/menu/about-us.png" width="49" height="10" alt="ABOUT US" /></a></div>
+		<div class="separator sep-left-2"></div>
+		<div class="item services"><a href="#" onclick="javascript:loadSectionByTitle('Services');" title="SERVICES"><img src="png/menu/services.png" width="48" height="10" alt="SERVICES" /></a></div>
+		<div class="home"><a href="#" onclick="javascript:loadSectionByTitle('Intro');" title="HOME"><img src="png/menu/wddg-logo.png" width="45" height="44" alt="WDDG" /></a></div>
+		<div class="item process"><a href="#" onclick="javascript:loadSectionByTitle('Process');" title="PROCESS"><img src="png/menu/process.png" width="47" height="10" alt="PROCESS" /></a></div>
+		<div class="separator sep-right-2"></div>
+		<div class="item reel"><a href="#" onclick="javascript:loadSectionByTitle('Reel');" title="REEL"><img src="png/menu/reel.png" width="26" height="9" alt="REEL" /></a></div>
+	</div>
+	<div class="main-projector">
+		<h1 id="copy"></h1>
+		<canvas id="canvas-container" width="720" height="486" ></canvas>
+		<video id="video-container" width="720" height="486" poster="png/common/black.png" type='video/mp4; codecs="avc1.42E01E, mp4a.40.2"'></video>
+		<audio id="audio-container"></audio>
+	</div>
+	<div id="main-footer">
+		&copy; WDDG, 511 Canal St, 4th Fl<br />
+		New York, NY 10013<br />
+		<a class="email" href="mailto:info@wddg.com" title="">info@wddg.com</a>
+		<br /><br /><br />
+		<a href="http://www.wddg.org"    title="WDDG.ORG">WDDG.ORG</a>
+	</div>
+</div>
+
+</body>
+<!------------------------------------------------------------------------
+ Û °°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°° ²
+ Û                                                                       ²
+ Û                     ###########            ############               ²
+ Û                     #XXXXXXXXX###          #XXXXXXXXXX#               ²
+ Û                     #XXXXXXXXXXX#          #XXXXXXXXXX#               ²
+ Û                     #XXXXXXXXXXX#  #########XXXXXXXXXX#               ²
+ Û                     #XXXXXXXXXXX#  #XXXXXXXXXXXXXXXXXX#               ²
+ Û               #######XXXXXXXXXXX####XXXXXXXXXXXXXXXXXX#       ###     ²
+ Û               #XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX#       ###     ²
+ Û               #XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX#       ###     ²
+ Û               #XXXXXXXXXXXX####XXXXXXXXX###XXXXXXXXXXX#    #########  ²
+ Û               ###XXXXXXX######XXXXXXXXXX####XXXXXXXXXX#       ###     ²
+ Û                 #XXXXXX####XXXXXXXXXXXXXXXX###XXXXXXXX#       ###     ²
+ Û                 #XXXX###XXXXXXXXXXXXXXXXXXXXX####XXXXX#       ###     ²
+ Û                 #XXX###XXXXXXXXXXXXXXXXXXXXXXX####XXXX#       ###     ²
+ Û                 #X###XXXX######XXXXXXXX######XXXX###XX#       ###     ²
+ Û                 #XXXXXXXX######XXXXXXXX######XXXXXXXXX#      ###      ²
+ Û                 #XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX#   ####        ²
+ Û                 #XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX#######         ²
+ Û                 #XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX####          ²
+ Û          ########XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX#             ²
+ Û       #######XXXXXXXXXXXXXXXX############XXXXXXXXXXXXXXX#             ²
+ Û      ####   #XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX#             ²
+ Û    ###      #XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX#             ²
+ Û    ###      #XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX#             ²
+ Û    ###      #XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX#             ²
+ Û    ###      #XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX#             ²
+ Û    ###      #XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX#             ²
+ Û             #XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX#             ²
+ Û             #############################################             ²
+ Û                             ##          ##                            ²
+ Û                             ##          ##                            ²
+ Û                             ##          ##                            ²
+ Û                     ##########          ##########                    ²
+ Û ÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛ ²
+ Û ÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛWe're in ur sourcecode hiding our txtsÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛ ²
+ Û ÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛ ²
+ Û ²²²²²²²²²²²²²²²²²²²²²²²²²²²²²²²²²²²²²²²²²²²²²²²²²²²²²²²²²²²²²²²²²²²²² ²
+ Û                                                                       ²
+ Û I#,        #        ,#I  ########ba,    ########ba,      ,ad####ba,   ²
+ Û `#b       d#b       d#'  ##      `"#b   ##      `"#b    d#"'    `"#b  ²
+ Û  "#,     ,#"#,     ,#"   ##        `#b  ##        `#b  d#'            ²
+ Û   Y#     #P Y#     #P    ##         ##  ##         ##  ##             ²
+ Û   `#b   d#' `#b   d#'    ##         ##  ##         ##  ##      #####  ²
+ Û    `#a a#'   `#a a#'     ##         #P  ##         #P  Y#,        ##  ²
+ Û     `#a#'     `#a#'      ##      .a#P   ##      .a#P    Y#a.    .a##  ²
+ Û      `#'       `#'       ########Y"'    ########Y"'      `"Y#####P"   ²
+ Û                                                                       ²
+ Û                                                                       ²
+ Û ÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛ ²
+ Û ÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛÛ ²
+ Û ²²²²²²²²²²²²²²²²²²²²²²²²²²²²²²²²²²²²²²²²²²²²²²²²²²²²²²²²²²²²²²²²²²²²² ²
+ Û                                                                       ²
+ Û °  ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¿  ²
+ Û °  ³±                      ________ ______                         ³  ²
+ Û °  ³±                     /_  __/ // / __/                         ³  ²
+ Û °  ³±                      / / / _  / _/                           ³  ²
+ Û °  ³±                     /_/ /_//_/___/                           ³  ²
+ Û °  ³±            ________  _______ ____________________            ³  ²
+ Û °  ³±           / ___/ _ \/ __/ _ /_  __/ __/ __/_  __/            ³  ²
+ Û °  ³±          / (_ / , _/ _// __ |/ / / _/_\ \  / /               ³  ²
+ Û °  ³±          \___/_/|_/___/_/ |_/_/ /___/___/ /_/                ³  ²
+ Û °  ³±    _____  _______________  ___  ________________   ______    ³  ²
+ Û °  ³±   /  _/ |/ /_  __/ __/ _ \/ _ |/ ___/_  __/  _/ | / / __/    ³  ²
+ Û °  ³±  _/ //    / / / / _// , _/ __ / /__  / / _/ / | |/ / _/      ³  ²
+ Û °  ³± /___/_/|_/ /_/ /___/_/|_/_/ |_\___/ /_/ /___/ |___/___/      ³  ²
+ Û °  ³±          ___  __________________  _________  ____            ³  ²
+ Û °  ³±         / _ \/ __/ __/  _/ ___/ |/ / __/ _ \/ __/            ³  ²
+ Û °  ³±        / // / _/_\ \_/ // (_ /    / _// , _/\ \              ³  ²
+ Û °  ³±       /____/___/___/___/\___/_/|_/___/_/|_/___/              ³  ²
+ Û °  ³±     ____  ____  ___   __   __     ____________  _______   TM ³  ²
+ Û °  ³±    / __ \/ __/ / _ | / /  / /    /_  __/  _/  |/  / __/      ³  ²
+ Û °  ³±   / /_/ / _/  / __ |/ /__/ /__    / / _/ // /|_/ / _/        ³  ²
+ Û °  ³±   \____/_/   /_/ |_/____/____/   /_/ /___/_/  /_/___/        ³  ²
+ Û °  ³±                                                              ³  ²
+ Û °  ³±                                                              ³  ²
+ Û °  ÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¿³  ²
+ Û                                                                    ³  ²
+ Û °  ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ³  ²
+ Û °  ³±                                                              ³  ²
+ Û °  ³±                                                              ³  ²
+ Û °  ³±                     Proudly Present                          ³  ²
+ Û °  ³±                                                              ³  ²
+ Û °  ³±                    WDDG.COM "NUCLEAR"                        ³  ²
+ Û °  ³±                                                              ³  ²
+ Û °  ³±                                                              ³  ²
+ Û °  ÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¿³  ²
+ Û °                                                           NOTEZ ³³  ²
+ Û °  ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ³  ²
+ Û °  ³±                                                              ³  ²
+ Û °  ³±       Yea, sorry that it took forever to finish this         ³  ²
+ Û °  ³±      damn thing.  It would have been done five months        ³  ²
+ Û °  ³±      earlier if we haven't been so busy with client          ³  ²
+ Û °  ³±    stuff.  The problem is that our ideas have a tendency     ³  ²
+ Û °  ³±    to snowball out of control... I mean - we practically     ³  ²
+ Û °  ³±      self-published a Nintendo Game a couple years ago.      ³  ²
+ Û °  ³±       Plus there is really no point in doing a halfass       ³  ²
+ Û °  ³±        redsign unless you have an interesting idea or        ³  ²
+ Û °  ³±      technology to play with.  With Flash 8 we get fun       ³  ²
+ Û °  ³±   layer and filter effects and better video, so it seemed    ³  ²
+ Û °  ³±    like a good time to do it.  So anyways, this started      ³  ²
+ Û °  ³± with the simple idea of making a site with a video backdrop  ³  ²
+ Û °  ³± and ended up as an homage to 50's nuclear films.  The site   ³  ²
+ Û °  ³±    isn't all video, it's mostly just SWF trickery (except    ³  ²
+ Û °  ³±                the obviously video stuff).                   ³  ²
+ Û °  ³±                                                              ³  ²
+ Û °  ³±                    We hope you like it.                      ³  ²
+ Û °  ³±           If you don't, well flame away and fu.              ³  ²
+ Û °  ³±                                                              ³  ²
+ Û °  ³±     This site is not made for crappy computers or slow       ³  ²
+ Û °  ³±    connections.  If you have a Mac, and Flash runs slow      ³  ²
+ Û °  ³±  on it, we don't care.  If you have a windoze 98 box with    ³  ²
+ Û °  ³± 64 megs of ram - we really don't care.  If you're on dialup, ³  ²
+ Û °  ³±  we don't even feel sorry for you.  Halfway through making   ³  ²
+ Û °  ³± this site we realized that there was no point in trying to   ³  ²
+ Û °  ³±  keep nubs with slow machines happy.  Don't blame us, blame  ³  ²
+ Û °  ³±                           Adobe.                             ³  ²
+ Û °  ³±                                                              ³  ²
+ Û °  ³±   Oh yea - if you play WoW - you can find most of us on      ³  ²
+ Û °  ³±      Aggramar-US.  Look for: Crunge, Kinski, Makabre,        ³  ²
+ Û °  ³±          Manalisa, Zeul, Megiddo, Grynn, Fiina.              ³  ²
+ Û °  ³±                                                              ³  ²
+ Û °  ³±                            -                                 ³  ²
+ Û °  ³±                                                              ³  ²
+ Û °  ³±                         The WDDG                             ³  ²
+ Û °  ³±                                                              ³  ²
+ Û °  ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ³  ²
+ Û °  ³±                                                              ³  ²
+ Û °  ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ³  ²
+ Û °  ³±             Since 1998, ROCKING better then ever.            ³  ²
+ Û °  ³±        Thanks to all who participated in our success.        ³  ²
+ Û °  ³±                                                              ³  ²
+ Û °  ³±                            -                                 ³  ²
+ Û °  ³±                                                              ³  ²
+ Û °  ³±          please note that we are not a release group.        ³  ²
+ Û °  ³±     we do not supply missing zips or software of any kind.   ³  ²
+ Û °  ³±                                                              ³  ²
+ Û °  ³±                            -                                 ³  ²
+ Û °  ³±                                                              ³  ²
+ Û °  ³±      need to talk to us? find us at www.wddg.com             ³  ²
+ Û °  ³±             or mail us at wddg@wddg.com                      ³  ²
+ Û °  ÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ  ²
+ Û °                                                           LEGAL ³³  ²
+ Û °  ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¿  ²
+ Û °  ³±     COPYRIGHT NOTICE: Copyright © 1998-2007 WDDG,Inc.        ³  ²
+ Û °  ³±                   All rights reserved.                       ³  ²
+ Û °  ³±                                                              ³  ²
+ Û °  ³±            All information and material provided by          ³  ²
+ Û °  ³±           WDDG Inc.is protected by United States and         ³  ²
+ Û °  ³±                international copyright law.                  ³  ²
+ Û °  ³±                                                              ³  ²
+ Û °  ÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¿³  ²
+ Û °                                                         THE HQS ³³  ²
+ Û °  ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ³  ²
+ Û °  ³± 511 Canal St úúúúúúúúúúúúúú oc-48 úúúúúúúúúúúúúúúú world hq  ³  ²
+ Û °  ³± 4th Fl úúúúúúúúúúúúúúúúúúúú  t-3  úúúúúúúúúúúúúúúúúúúúúú hq  ³  ²
+ Û °  ³± New York úúúúúúúúúúúúúúúúúú  t-3  úúúúúúúúúúúúúúúúúúúúúú hq  ³  ²
+ Û °  ³± New York úúúúúúúúúúúúúúúúúú  t-3  úúúúúúúúúúúúúúúúúúúúúú hq  ³  ²
+ Û °  ³± 10013 úúúúúúúúúúúúúúúúúúúúú  t-3  úúúúúúúúúúúúúúúúúúúúúú hq  ³  ²
+ Û °  ÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¿³  ²
+ Û °                                                       THE SITES ³³  ²
+ Û °  ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ³  ²
+ Û °  ³± www.wddg.com úúúúúúúúúúúúúúúúúúúúúúúúúúúúúúúúúúúúúúúúúúúúúú  ³  ²
+ Û °  ³± www.wddg.org úúúúúúúúúúúúúúúúúúúúúúúúúúúúúúúúúúúúúúúúúúúúúú  ³  ²
+ Û °  ÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¿³  ²
+ Û °                                                                  ³  ²
+ Û °                                                                   ß ²
+ ÛÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÛ ²
+------------------------------------------------------------------------->
+<script type="text/javascript" src="js/bowser.min.js"></script>
+<script type="text/javascript" src="js/Tween.js"></script>
+<script type="text/javascript" src="js/jquery-1.4.2.min.js"></script>
+<script>
+
+<!--
+	var DEBUG = false;
+
+	var flashInstalled = function() { var ie_flash; try { ie_flash = (window.ActiveXObject && (new ActiveXObject("ShockwaveFlash.ShockwaveFlash")) !== false) } catch(err) { ie_flash = false; } var _flash_installed = ((typeof navigator.plugins != "undefined" && typeof navigator.plugins["Shockwave Flash"] == "object") || ie_flash); return _flash_installed; };
+
+	// canvas elements
+	var canvas = document.getElementById("canvas-container");
+	var context = canvas.getContext("2d");
+	var titleCopy = document.getElementById("copy");
+	var videoCanvas = document.getElementById("video-container");
+	var audioContainer = document.getElementById("audio-container");
+	var slideshow;
+	var cardTimer;
+	var textTimer;
+	var tweener;
+
+	if (bowser.iphone) console.log("iphone");
+	if (bowser.mobile) console.log("mobile");
+	if (bowser.tablet) console.log("tablet");
+
+
+	// xml-data-array container
+	var WDDG = new Array();
+	var sectionIndex = 0; 		// where we are in the stack of sections  0 to start
+
+	// some constants
+	var cardWidth = 720;
+	var cardHeight = 486;
+
+	// paths
+	var xmlPath = "xml/wddg.xml";
+
+	// jquery loader and XML parser
+	$(document).ready(function(){
+			$.ajax({
+				type: "GET",
+				url: xmlPath,
+				dataType: "xml",
+				success: function(xml) {
+					//testAlert();
+					$(xml).find('sections').each(function(){
+
+						$(this).find('section').each(function(){
+
+							var section = new Array();
+							section["id"] = $(this).attr('id');
+							section["title"] = $(this).attr('title');
+							section["cycle"] = $(this).attr('cycle');
+							section["decks"] = new Array();
+
+							$(this).find('deck').each(function(){
+
+								var deck = new Array();
+								deck["loop"] 		= $(this).attr('loop');
+								deck["controls"]	= $(this).attr('controls');
+								deck["cards"]		= new Array();
+
+								$(this).find('card').each(function(){
+									var card = new Array();
+									card["type"] 		= $(this).attr('type');
+									card["src"] 		= $(this).attr('src');
+									card["time"] 		= $(this).attr('time');
+									card["transition"] 	= $(this).attr('transition');
+									card["audio"]		= $(this).attr('audio');
+									card["border"]	= $(this).attr('border');
+									card["data"]		= new Array();
+
+									$(this).find('data').each(function(){
+										var data = new Array();
+										data["order"]		= $(this).attr('order');
+										data["transition"]	= $(this).attr('transition');
+										data["time"]		= $(this).attr('time');
+										data["css"]		= $(this).attr('css');
+										data["mobile"]		= $(this).attr('mobile');
+										data["text"]		= new Array();
+
+										$(this).find('textfield').each(function(){
+
+											data["text"].push($(this).text());
+										}); // textfields
+
+										card["data"].push(data);
+									}); // data
+
+									deck["cards"].push(card);
+								}); // card
+
+								section["decks"].push(deck);
+							}); // deck
+							WDDG.push(section);
+						}); // section
+					}); // sections
+					init();	// init the page
+				}, // success
+				error: err
+			}); // ajax
+		}); // ready
+
+
+
+	function init()
+	{
+		sectionIndex = findNextSectionInCycle(sectionIndex);
+		slideshow = new section(WDDG[sectionIndex]);
+		slideshow.start();
+		setInterval("render()",100);
+
+	}
+
+	function findNextSectionInCycle(index)
+	{
+		if(index>=WDDG.length) {
+			index = 0;
+		}
+		for(var i=index;i<WDDG.length;i++){
+			if(WDDG[i].cycle == "true") return i;
+		}
+		return 0;
+	}
+
+	function findSectionByTitle(title)
+	{
+		for(var i=0;i<WDDG.length;i++){
+			if(WDDG[i].title == title) return i;
+		}
+		return 0;
+	}
+
+	function loadNextSection()
+	{
+		sectionIndex++;
+		cleanUpSlideShow();
+		sectionIndex = findNextSectionInCycle(sectionIndex);
+		slideshow = new section(WDDG[sectionIndex]);
+		slideshow.start();
+	}
+
+	function loadSectionByTitle(title){
+		sectionIndex = findSectionByTitle(title);
+		cleanUpSlideShow();
+		slideshow = null;
+		slideshow = new section(WDDG[sectionIndex]);
+		slideshow.start();
+	}
+
+	function cleanUpSlideShow(){
+		if (typeof slideshow !== 'undefined') slideshow.stop();
+		cleanUpAudio();
+		cleanUpVideo();
+		cleanUpTextfields();
+		if(tweener) tweener.stop();
+		clearTimeout(cardTimer);
+		clearTimeout(textTimer);
+	}
+
+	function cleanUpAudio(){
+		audioContainer.pause();
+	}
+
+	function cleanUpVideo(){
+		videoCanvas.pause();
+		videoCanvas.src = null;
+		videoCanvas.load();
+	}
+
+	function cleanUpTextfields(){
+
+		$("h1").text("");
+		$("h1").css("visibility","hidden");
+	}
+
+
+	// section prototype
+	// function section(id,title,cycle,audio)
+	function section(sectionNode)
+	{
+		this.id 		= sectionNode.id;			// id
+		this.title 		= sectionNode.title;
+		this.cycle 		= sectionNode.cycle; 		// true/false whether section will play in idle mode
+		var deckInit 		= new Array();	// array of decks
+		this.decks 		= deckInit;
+		this.index 		= 0;
+		// this.cursor 		= 0;
+		this.total		= sectionNode.decks.length;
+		this.sectionNode 	= sectionNode;	// holder for the sectionNode
+
+		this.addDeck = function(deckNode)
+		{
+			// logic to add deck
+			var newDeck = new deck(deckNode);
+			this.decks.push(newDeck);
+		}
+		this.nextDeck = function()
+		{
+			// move on to the next deck
+			this.index++;
+			// this.cursor++;
+			// if at the end, load up the next in the sequence
+			if (this.index>=this.total){
+				// parent.nextSection
+				this.index = 0;
+				loadNextSection();
+			}else{
+				// load next deck in sequence
+				this.addDeck(sectionNode.decks[this.index]);
+			}
+		}
+
+		this.start = function()
+		{
+			// start playing the deck
+			this.decks[this.index].start();
+		}
+
+		this.stop = function()
+		{
+			// stop playing the deck
+			this.decks[this.index].stop();
+			this.index = 0;
+		}
+
+		// because settimeout targets the DOM window we have to call down for the next card
+		this.nextCard = function()
+		{
+			this.decks[this.index].nextCard();
+		}
+		this.startCard = function()
+		{
+			this.decks[this.index].startCard();
+		}
+		this.cardFadeTransitionFinished = function()
+		{
+			this.decks[this.index].cardFadeTransitionFinished();
+		}
+		this.nextTextfield = function()
+		{
+			this.decks[this.index].nextTextfield();
+		}
+
+		// memory deallocation
+		this.release = function()
+		{
+			for(var deck in this.decks){
+				deck.release();
+			}
+			this.decks = null;
+			// remove a deck
+		}
+		this.render = function(context,x,y)
+		{
+			// render the current deck - will chain down to render the current card
+			this.decks[this.index].render(context,x,y);
+		}
+
+		this.addDeck(sectionNode.decks[this.index]);
+
+	}
+
+
+
+	// deck prototype
+	// function deck(loop,controls)
+	function deck(deckNode)
+	{
+		this.loop 	= deckNode.loop;		// integer, number of times the deck will play (0=loop, 1 = play once, 2 = play twice, etc.)
+		this.controls 	= deckNode.controls; // true/false
+		var cardInit 	= new Array();
+		this.cards 	= cardInit;
+		this.index 	= 0;
+		this.cursor	= 0;
+		this.fading 	= false;
+		this.loopCount = 0;
+		this.total	= deckNode.cards.length;
+		this.deckNode = deckNode;	// holder for the deckNode
+
+		// card adding/deleting
+		this.addCard = function(cardNode)
+		{
+			// add a new card to the deck
+			// probably pushing it onto the stack
+			// should then do a settimeout to call the next card
+			var newCard = new card(cardNode);
+			this.cards.push(newCard);
+		}
+		this.nextCard = function()
+		{
+			// logic to go to the next card
+			// should do a transition to the next card
+			// transition should then do a callback to add the next card
+			this.index++;
+			this.cursor++;
+			// looping/repeating logic
+			if (this.cursor>=this.total){
+				if(this.loop == 0){  // loops forever
+					// restart the deck
+					this.cursor = 0;
+				}else{
+					this.loopCount++;
+
+					if(this.loopCount>=this.loop){
+						nextDeck();
+					}else{
+						// restart the deck
+						this.cursor = 0;
+					}
+				}
+			}
+
+			// add the new card
+			this.addCard(this.deckNode.cards[this.cursor]);
+			this.cards[this.index].init();
+
+			// transition or cut
+			if(this.cards[this.index].transition == "fade"){
+				//tweener
+				this.fading = true;
+				tweener = new Tween(this.cards[this.index],'opacity',Tween.regularEaseInOut,0,100,2,'');
+				tweener.onMotionFinished = function(){cardFadeTransitionFinished()};
+				tweener.start();
+			}else{
+				// just show the card
+				this.fading = false;
+				this.removePreviousCard();
+			}
+		}
+
+		this.nextTextfield = function()
+		{
+			this.cards[this.index].nextTextfield();
+		}
+
+		this.cardFadeTransitionFinished = function()
+		{
+			this.fading = false;
+			this.removePreviousCard();
+		}
+
+		this.removePreviousCard = function()
+		{
+			this.cards.shift();
+			this.index--;
+			// start up the next card
+			this.start();
+		}
+
+		this.shuffle = function()
+		{
+			// randomly sort the deck
+		}
+
+		this.start = function()
+		{
+
+			if(this.cards[this.index].type == "mov"){
+				videoCanvas.style.visibility = "visible";
+				videoCanvas.src = this.cards[this.index].path;
+				videoCanvas.load();
+				videoCanvas.play();
+				videoCanvas.addEventListener('ended',nextCard,false);
+			}else{
+				videoCanvas.style.visibility = "hidden";
+				// start playing the card
+				// if transition is a cut - immediately show
+				// if it's a fade, start a tweener?
+				time = this.cards[this.index].time * 1000;
+				// (moving into the card, only triggering on load)...
+				//cardTimer = setTimeout('nextCard()', time);
+			}
+			// play the audio track if it has one..
+			if(this.cards[this.index].audio){
+				audioContainer.src = this.cards[this.index].audio;
+				audioContainer.autoplay = true;
+			}
+		}
+
+		// memory deallocation
+		this.release = function()
+		{
+			for (var card in this.cards){
+				card.release();
+			}
+			this.cards = null;
+			// remove a deck
+		}
+
+
+		this.stop = function()
+		{
+			// stop playing the card
+			// might reset the timer here as well
+			if (typeof this.cards[this.index] !== 'undefined') {
+				this.cards[this.index].stop();
+			}
+			this.index = 0;
+		}
+
+		// rendering
+		this.render = function(context,x,y)
+		{
+			if (typeof this.cards[this.index] !== 'undefined') {
+				// different rendering if it's a video or a card
+				if(this.cards[this.index].type == "mov"){
+					// render the video
+					// probably do nothing here
+
+				}else{
+					// render the current card
+					if(this.fading){
+						this.cards[this.index-1].render(context,x,y);
+						this.cards[this.index].render(context,x,y);
+					}else{
+						this.cards[this.index].render(context,x,y);
+					}
+				}
+			}
+		}
+
+		this.addCard(deckNode.cards[this.index]);
+		this.cards[this.index].init();
+	}
+
+	// card prototype
+	// function card(path,type,data,audio,transition,time,border,blend)
+	function card(cardNode)
+	{
+		this.width 	= cardWidth;
+		this.height 	= cardHeight;
+		this.type 	= cardNode.type;	// either image or movie file - different rendering path depending on which
+		this.path 	= cardNode.src;
+		this.audio 	= cardNode.audio;
+		this.blend 	= cardNode.blend;
+		this.transition = cardNode.transition;
+		this.time 	= cardNode.time;	// length (in seconds) to keep on screen
+		this.border 	= "true"; //cardNode.border;  // true/false
+		this.loaded 	= false;
+
+
+		if (cardNode.data[0]) {
+			data	= new textData(cardNode.data[0]);		// not using this.data because of stupid scoping problems.
+		}
+
+
+		if(this.transition =="cut"){
+			this.opacity = 100;
+		}
+		if(this.transition =="fade"){
+			this.opacity = 0;
+		}
+
+		this.start = function()
+		{
+			// play the card
+		}
+
+		this.nextTextfield = function()
+		{
+			$("h1").css("visibility","visible");
+			data.nextTextfield();
+			data.render();
+			textTimer = setTimeout('nextTextfield()',(parent.data.time*1000));
+		}
+
+		this.finished = function()
+		{
+			//this.parent.nextCard();
+		}
+
+		this.stop = function()
+		{
+			if (typeof data !== 'undefined') data.stop();
+		}
+
+		this.release = function()
+		{
+			// this = null;
+		}
+
+		this.init = function()
+		{
+			this.image = new Image();
+			this.image.onload = function()
+			{
+				cardTimer = setTimeout('nextCard()', parent.time);
+				if (parent.data) textTimer = setTimeout('nextTextfield()',(this.time*1000));
+				// something is fishy here....
+				parent.loaded = true;
+			}
+			this.image.src = this.path;
+		}
+
+		this.render = function(context,x,y)
+		{
+
+			if(loaded){
+				context.globalAlpha = this.opacity/100;
+				context.globalCompositeOperation = this.blend;
+				context.drawImage(this.image,x,y);
+				if(this.border) {
+					// render the border
+					context.drawImage(borderImg,0,0);
+				}
+				// render textfield here
+				if (typeof data !== 'undefined') data.render();
+			}
+		}
+	}
+
+	// text data prototype - for basic text overlays on a card
+	function textData(textDataNode)
+	{
+		this.order  		= textDataNode.order;  	// random/play-once/all
+		this.time 		= textDataNode.time;	// time
+		this.transtion		= textDataNode.transition;
+		this.css 		= textDataNode.css;	// css # to use
+		this.mobile  = textDataNode.mobile;
+		this.textFields 	= new Array(); 		// array of text fields
+		this.textFields 	= textDataNode.text;
+		this.textDataNode 	= textDataNode;		// holder for the node
+		this.index		= -1;  				// start with first textfield
+
+
+		this.stop = function()
+		{
+			this.index = -1;
+		}
+
+		this.start = function()
+		{
+
+		}
+
+		this.nextTextfield = function()
+		{
+			this.index++;
+			if (this.index >= this.textFields.length) {
+				this.index = -1;
+			}
+		}
+
+		this.render = function()
+		{
+			// display the text,
+			if (!(bowser.mobile && this.mobile == "NO")) {
+				$("h1").text(this.textFields[this.index]);
+			}
+		}
+
+
+		this.shuffle = function()
+		{
+			// randomly sort the text array
+		}
+
+	}
+
+	// called in setTimeOuts
+	function nextCard()
+	{
+		slideshow.nextCard();
+	}
+	function startCard()
+	{
+		slideshow.startCard();
+	}
+	function cardFadeTransitionFinished()
+	{
+		slideshow.cardFadeTransitionFinished();
+	}
+	function nextDeck()
+	{
+		slideshow.nextDeck();
+	}
+	function nextTextfield(target)
+	{
+		slideshow.nextTextfield();
+	}
+
+	// grain overlay prototype
+	function grain(total)
+	{
+		this.grainImg = new Array();
+		this.totalGrainImages = total;
+		this.grainImgPath = "jpg/grain/";
+		this.grainImgPrefix = "grain00";
+		for(i=2;i<=this.totalGrainImages;i++){
+			this.grainImg[i] = new Image();
+			this.grainImg[i].src = this.grainImgPath + this.grainImgPrefix + zeroPad(i,3) + ".jpg";
+		}
+		this.grainCursor = 2;
+
+		this.render = function(context,x,y){
+			context.globalCompositeOperation = 'darken';
+			context.drawImage(this.grainImg[this.grainCursor],x,y);
+				// grain loop
+			if (this.grainCursor>=this.totalGrainImages){
+				this.grainCursor = 2;
+			}else{
+				this.grainCursor = this.grainCursor + 1;
+			}
+		}
+	}
+
+	var borderImg = new Image();
+	borderImg.src = "png/common/border.png";
+
+
+	var grainOverlay	= new grain(20);
+
+	// main render function
+	function render()
+	{
+		// prep canvas
+		context.globalCompositeOperation = 'source-over';
+		context.globalAlpha = 1;
+		context.fillStyle = "#000000";
+		context.fillRect(0,0,canvas.width,canvas.height);
+
+		// jitter
+		var x = Math.floor(Math.random()*3);
+		var y = Math.floor(Math.random()*3);
+
+		// render elements
+		slideshow.render(context,x,y);
+
+		// render grain
+		grainOverlay.render(context,x,y);
+
+		// jitter splash copy
+		var marginLeft = (115 + x) + "px";
+		$("h1").css("margin-left",marginLeft);
+		titleCopy.style.top = (290 + y) + "px";
+
+	}
+
+	// utility functions
+	function zeroPad(n, digits)
+	{
+		n = n.toString();
+		while (n.length < digits) {
+			n = '0' + n;
+		}
+		return n;
+	}
+
+	function trace(message)
+	{
+		if(DEBUG) alert(message);
+	}
+
+	function testAlert()
+	{
+		trace("success");
+	}
+	function err(xhr,reason,ex){
+		trace(reason);
+	}
+
+-->
+</script>
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-65417101-1', 'auto');
+  ga('send', 'pageview');
+
+</script>
+</html>

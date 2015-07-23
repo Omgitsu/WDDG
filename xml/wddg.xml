@@ -1,0 +1,122 @@
+<!-- MAKE SURE AT LEAST ONE SECTION IN ROOT IS CYCLE=TRUE -->
+<!-- time param will always take precendence over any other form of ending a card.
+	If time is 0:
+		mov card will end at end of play
+		image card will stay indefinately
+		sequence card (mov or image) will end after number of loops complete.
+
+		Attributes:
+			Card:
+				transitions = fade|cut
+				loop => 1 = 1play, 2 = 2plays, etc
+				order = random|sequence|all
+				grain="false" - toggle off grain
+				border="false" - toggle off border
+				blur="0" - x,y blur value.  If 0 it will disable the blur.  If attribute does not exist it will use 2 by default
+				videoControls="true" - toggle on/off video controls for cards (with type mov) (mp4Queue SWF's also support this)
+				oncePerSession="true" || "false" - This is only available on Menu or Card nodes
+				audio attribute (Card): Plays once.  Destroyed when section is complete.
+
+			Deck:
+				loop - integer, number of times the deck will play (1 = play once, 2 = play twice, etc.)
+				controls="true" = toggle slide controls on/off.
+
+			Sections:
+				audio attribute (Sections): Loops while in the section.  Destroyed when section is complete.
+
+			Section:
+				cycle="true" - toggle on/off whether this section will be displayed while in "idle" mode
+
+		portCard.swf (Card) takes an additional attibute on its data nodes: requiredBandwith
+			- the client can set their bandwidth choice the first time they view the portfolio ("HIGH", "LOW")
+			- the portCard will play the appropriate data node depending on the clients setting
+			- if the requiredBandwith attribute does not exist, the card will execute the data node regardless of client setting
+-->
+
+<site>
+	<sections id="root" audio="FUZZ">
+		<section id="intro" title="Intro" cycle="true">
+			<deck loop="1">
+				<card type="jpg" src="jpg/intro/sanitized.jpg" time="2" transition="cut"/>
+				<card type="jpg" src="jpg/intro/intro3.jpg" time="4" transition="cut"/>
+				<card type="jpg" src="jpg/intro/intro4.jpg" time="4" transition="cut"/>
+				<card type="jpg" src="jpg/intro/intro.jpg" time="2" transition="cut" audio="mp3/intro.mp3"/>
+				<card type="jpg" src="jpg/intro/intro2.jpg" time="2" transition="fade" />
+				<card type="mov" src="mov/EffectsIntro.mp4" time="0" transition="cut" blur="0" grain="false" border="false"/>
+				<card type="mov" src="mov/boom1.mp4" time="0" transition="cut" blur="0" grain="false" border="false" />
+			</deck>
+		</section>
+
+		<section id="aboutus" title="About Us" cycle="true">
+			<deck loop="1" controls="true">
+				<card type="jpg" src="jpg/about/about_splash.jpg" time="4" transition="cut" audio="mp3/AboutIntro.mp3"/>
+				<card type="jpg" src="jpg/about/about1.jpg" time="13" transition="fade" />
+				<card type="jpg" src="jpg/about/about2.jpg" time="18" transition="fade" />
+				<card type="jpg" src="jpg/about/about3.jpg" time="15" transition="fade" />
+			</deck>
+		</section>
+
+		<section id="services" title="Services" cycle="true" audio="mp3/ServicesVO.mp3">
+			<deck loop="1">
+				<card type="jpg" src="jpg/services/services_splash.jpg" time="24" transition="cut">
+					<data order="all" transition="fade" time="2" css="Bodoni" mobile="YES">
+						<textfield></textfield>
+						<textfield>INTERACTIVE DEVELOPMENT</textfield>
+						<textfield>ADVERGAMING</textfield>
+						<textfield>STRATEGY</textfield>
+						<textfield>SITE MANAGEMENT</textfield>
+						<textfield>HANDHELD GAME DESIGN</textfield>
+						<textfield>DIGITAL STRATEGY</textfield>
+						<textfield>SITE ARCHITECTURE</textfield>
+						<textfield>MOTION GRAPHICS</textfield>
+						<textfield>VIDEO PRODUCTION</textfield>
+						<textfield>CAMPAIGN MANAGEMENT</textfield>
+						<textfield>VIRAL CAMPAIGNS</textfield>
+					</data>
+				</card>
+			</deck>
+		</section>
+
+		<section id="effects" title="Effects" cycle="true" audio="mp3/effects.mp3">
+		  <deck loop="1">
+		    <card type="jpg" src="jpg/effects/effects_title.jpg" time="5" transition="cut">
+		      <data order="all" transition="fade" time="20" css="Bodoni" mobile="NO">
+						<textfield></textfield>
+		        <textfield>COMPETITION ELIMINATED</textfield>
+		        <textfield>OPPOSING THREATS CRUSHED</textfield>
+		        <textfield>INSURMOUNTABLE STRENGTH</textfield>
+		        <textfield>TECHNOLOGICAL SUPREMACY</textfield>
+		        <textfield>LEVELED DIGITAL PLAYING FIELD</textfield>
+		        <textfield>FORCES TO BE RECKONED WITH</textfield>
+		        <textfield>TARGETED SUCCESS</textfield>
+		        <textfield>EXPECTATIONS EXCEEDED</textfield>
+		        <textfield>DEVASTATING IMPACT</textfield>
+		        <textfield>MINIMAL CASUALTIES</textfield>
+		        <textfield>VICTORIOUS CAMPAIGNS</textfield>
+		        <textfield>STRATEGIC SUCCESS</textfield>
+		        <textfield>FEAR NO ONE</textfield>
+		        <textfield>TARGETS CAPTURED</textfield>
+		        <textfield>ROADBLOCKS REMOVED</textfield>
+		        <textfield>UNLEASHED POTENTIAL</textfield>
+						<textfield>THOSE THAT OPPOSE DESTROYED</textfield>
+		      </data>
+		    </card>
+		    <card type="mov" src="mov/destruction.mp4" time="0" transition="cut" blur="0" grain="false" border="false"/>
+		  </deck>
+		</section>
+
+		<section id="reel" title="Reel" cycle="true">
+			<deck>
+				<!--<card type="swf" src="demoLeader.swf" time=".3" transition="cut"  blur="2"/>-->
+				<card type="mov" src="mov/reel/reel.mp4" time="0" transition="cut" videoControls="true" blur="0" jitter="true"/>
+			</deck>
+		</section>
+
+		<section id="process" title="Process" cycle="true">
+			<deck loop="1">
+				<card type="mov" src="mov/process/process.mp4" time="0" transition="cut" videoControls="true" blur="0" jitter="true"/>
+			</deck>
+		</section>
+
+	</sections>
+</site>
